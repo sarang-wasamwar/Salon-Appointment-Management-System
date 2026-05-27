@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Services - SalonSnap</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      :root {
+        --orange-soft: #ff9a3c;
+        --orange-light: #ffb066;
+        --orange-pale: #ffe2cc;
+        --orange-cream: #fff7f0;
+        --pure-white: #ffffff;
+        --off-white: #fffaf5;
+        --dark-text: #7a4a2e;
+        --soft-text: #a66a3f;
+        --light-text: #ffffff;
+        --accent: #ff7a00;
+        --light: #ff7a00;
+        --bg-card: #ffffff;
+        --soft-border: #ffe2cc;
+        --soft-hover: #ffb066;
+        --gradient: linear-gradient(135deg, #fff7f0, #ffe2cc, #ff9a3c);
+        --shadow: 0 10px 30px rgba(255, 154, 60, 0.18);
+      }
+
+      body {
+        background: var(--light);
+        color: var(--dark-text);
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background: rgba(255, 247, 240, 0.95);
+        backdrop-filter: blur(20px);
+        padding: 0.8rem 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      header.scrolled {
+        padding: 0.6rem 0;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--accent), var(--orange-soft));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.5rem 0;
+      }
+
+      .logo i {
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, var(--accent), var(--orange-soft));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 1.2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--dark-text);
+        font-weight: 500;
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        position: relative;
+        white-space: nowrap;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--accent);
+        background: var(--orange-pale)
+      }
+
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 60%;
+      }
+
+      .auth-buttons {
+        display: flex;
+        gap: 0.8rem;
+        align-items: center;
+      }
+
+      .btn {
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: var(--shadow);
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--accent), var(--orange-cream));
+        color: white;
+        border: 1.5px solid var(--orange-soft) ;
+      }
+
+      .btn-outline {
+        background: linear-gradient(135deg, var(--orange-cream), var(--accent));
+        border: 1.5px solid var(--orange-soft);
+        color: var(--dark-text);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #ffb066, var(--accent));
+      }
+
+      .btn-outline:hover {
+        background: linear-gradient(135deg, #ffb066, var(--accent));
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        position: relative;
+        z-index: 1001;
+      }
+
+      .mobile-menu-btn span {
+        width: 25px;
+        height: 3px;
+        background: var(--dark-text);
+        transition: all 0.3s ease;
+        border-radius: 2px;
+        display: block;
+      }
+
+      .mobile-menu-btn:hover span {
+        background: var(--accent);
+      }
+
+      .mobile-menu-btn.active span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+      }
+
+      .mobile-menu-btn.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .mobile-menu-btn.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+
+      .page-header {
+        background: linear-gradient(
+          135deg,
+          var(--orange-light) 0%,
+          var(--orange-pale) 100%
+        );
+        color: var(--dark-text);
+        padding: 140px 0 80px;
+        text-align: center;
+        margin-top: 80px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.03"><path fill="%23FF6B8B" d="M500,200c150,0,250,100,250,250S650,700,500,700S250,600,250,450S350,200,500,200z"/></svg>');
+        background-size: 600px;
+        animation: float 20s infinite linear;
+      }
+
+      .page-header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 2;
+      }
+      
+      .page-header p {
+        font-size: 1.3rem;
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.9;
+        position: relative;
+        z-index: 2;
+      }
+      
+      .features {
+        padding: 6rem 0;
+        background: linear-gradient(
+          135deg,
+          var(--orange-pale) 0%,
+          var(--orange-light) 100%
+        );
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-title h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        color: var(--dark-text);
+        margin-bottom: 1rem;
+      }
+
+      .section-title p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        color: var(--dark-text);
+        opacity: 0.8;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+        gap: 2rem;
+      }
+
+      .service-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .service-image {
+        height: 200px;
+        background: linear-gradient(
+          135deg,
+          var(--orange-cream),
+          var(--orange-soft)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-image::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+      }
+
+      .service-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .service-content h3 {
+        color: var(--dark-text);
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+      }
+
+      .service-content p {
+        color: var(--dark-text);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        opacity: 0.8;
+        flex-grow: 1;
+      }
+
+      .service-price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--accent);
+        margin-bottom: 1rem;
+      }
+
+      .service-meta {
+        display: flex;
+        justify-content: space-between;
+        color: var(--dark-text);
+        font-size: 0.9rem;
+        opacity: 0.7;
+        margin-bottom: 1.5rem;
+        margin-top: auto;
+      }
+
+      footer {
+        background: var(--dark-text);
+        color: white;
+        padding: 4rem 0 1.5rem;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+        margin-bottom: 3rem;
+      }
+
+      .footer-section h3 {
+        margin-bottom: 1.5rem;
+        color: var(--orange-light);
+        font-size: 1.3rem;
+      }
+
+      .footer-section p {
+        margin-bottom: 1rem;
+        opacity: 0.8;
+        line-height: 1.6;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-links a:hover {
+        color: var(--orange-light);
+        transform: translateX(5px);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        background: var(--accent);
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        opacity: 0.7;
+      }
+
+      @media (max-width: 768px) {
+        .mobile-menu-btn {
+          display: flex;
+        }
+
+        .logo {
+          font-size: 1.6rem;
+        }
+
+        .nav-links {
+          position: fixed;
+          top: 80px;
+          left: 0;
+          width: 100%;
+          background: white;
+          flex-direction: column;
+          padding: 2rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          transform: translateY(-100%);
+          opacity: 0;
+          transition: all 0.3s ease;
+          z-index: 999;
+        }
+
+        .nav-links.active {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .nav-links a {
+          padding: 1rem;
+          text-align: center;
+          border-radius: 10px;
+          margin-bottom: 0.5rem;
+        }
+
+        .auth-buttons {
+          flex-direction: column;
+          width: 100%;
+          gap: 0.5rem;
+        }
+
+        .auth-buttons .btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .page-header {
+          padding: 120px 0 60px;
+        }
+
+        .page-header h1 {
+          font-size: 2.5rem;
+        }
+
+        .page-header p {
+          font-size: 1.1rem;
+          padding: 0 10px;
+        }
+
+        .section-title h2 {
+          font-size: 2.2rem;
+        }
+
+        .section-title p {
+          font-size: 1rem;
+          padding: 0 10px;
+        }
+
+        .features {
+          padding: 4rem 0;
+        }
+
+        .container {
+          padding: 0 15px;
+        }
+
+        .services-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+          padding: 0;
+        }
+
+        .service-card {
+          margin: 0;
+          max-width: 100%;
+          width: 100%;
+        }
+
+        .service-content {
+          padding: 1.5rem;
+        }
+
+        .service-content h3 {
+          font-size: 1.2rem;
+        }
+
+        .service-price {
+          font-size: 1.3rem;
+        }
+
+        .service-meta {
+          flex-direction: column;
+          gap: 0.5rem;
+          align-items: flex-start;
+        }
+
+        .footer-content {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo {
+          font-size: 1.4rem;
+        }
+
+        .page-header {
+          padding: 100px 0 50px;
+        }
+
+        .page-header h1 {
+          font-size: 2rem;
+        }
+
+        .page-header p {
+          font-size: 1rem;
+        }
+
+        .section-title h2 {
+          font-size: 1.8rem;
+        }
+
+        .container {
+          padding: 0 10px;
+        }
+
+        .service-image {
+          height: 160px;
+          font-size: 3rem;
+        }
+
+        .service-content {
+          padding: 1.2rem;
+        }
+
+        .service-content h3 {
+          font-size: 1.1rem;
+        }
+
+        .service-content p {
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+        }
+
+        .service-price {
+          font-size: 1.2rem;
+        }
+
+        .service-meta {
+          font-size: 0.8rem;
+        }
+
+        .btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.85rem;
+        }
+      }
+
+      .service-image {
+          height: 200px;
+          position: relative;
+          overflow: hidden;
+          background: linear-gradient(135deg, var(--orange-cream), var(--orange-soft));
+      }
+
+      .service-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+      }
+
+      .service-image .image-placeholder {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          font-size: 3rem;
+          color: white;
+      }
+
+      .service-image .image-carousel {
+          position: relative;
+          width: 100%;
+          height: 100%;
+      }
+
+      .carousel-nav {
+          position: absolute;
+          bottom: 10px;
+          left: 0;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          gap: 8px;
+          z-index: 2;
+      }
+
+      .carousel-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.5);
+          cursor: pointer;
+          transition: all 0.3s ease;
+      }
+
+      .carousel-dot.active {
+          background: var(--accent);
+          width: 20px;
+          border-radius: 4px;
+      }
+
+      .carousel-prev, .carousel-next {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0, 0, 0, 0.5);
+          color: white;
+          border: none;
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s ease;
+          z-index: 2;
+      }
+
+      .carousel-prev:hover, .carousel-next:hover {
+          background: var(--accent);
+      }
+
+      .carousel-prev { left: 10px; }
+      .carousel-next { right: 10px; }
+
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <i class="fas fa-spa"></i>
+              SalonSnap
+          </div>
+
+          <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="nav-link active">Home</a></li>
+            <li><a href="services.html" class="nav-link">Services</a></li>
+            <li><a href="appointment.html" class="nav-link">Book Appointment</a></li>
+            <li><a href="about.html" class="nav-link">About Us</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
+            <!-- <li><a href="login.html" class = "nav-link" >Login/Register</a></li> -->
+            <li class="auth-link"><a href="login.html" id="loginNavLink">Login</a></li>
+<li class="auth-link"><a href="dashboard.html" id="dashboardNavLink">Dashboard</a></li>
+          </ul>
+        </nav>
+<script>
+    function updateNavbarAuth() {
+        const loginNavLink = document.getElementById('loginNavLink');
+        const dashboardNavLink = document.getElementById('dashboardNavLink');
+        const userLoggedIn = localStorage.getItem('userLoggedIn');
+        const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+        
+        if (loginNavLink && dashboardNavLink) {
+            if (userLoggedIn === 'true' || adminLoggedIn === 'true') {
+                loginNavLink.parentElement.style.display = 'none';
+                dashboardNavLink.parentElement.style.display = 'list-item';
+                const userType = localStorage.getItem('userType');
+                if (userType === 'admin') {
+                    dashboardNavLink.href = 'admin.html';
+                    dashboardNavLink.innerHTML = '<i class="fas fa-user-shield"></i> Admin Panel';
+                } else {
+                    dashboardNavLink.href = 'dashboard.html';
+                    dashboardNavLink.innerHTML = '<i class="fas fa-user"></i> Dashboard';
+                }
+            } else {
+                loginNavLink.parentElement.style.display = 'list-item';
+                dashboardNavLink.parentElement.style.display = 'none';
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', updateNavbarAuth);
+</script>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <div class="container">
+        <h1>Our Beauty Services</h1>
+        <p>Discover our complete range of luxury beauty treatments</p>
+      </div>
+    </section>
+
+    <section class="features" style="background: #f8f9fa; padding-top: 4rem">
+      <div class="container">
+        <div class="services-grid" id="regularServicesGrid">
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <div class="section-title">
+          <h2>Premium Services</h2>
+          <p>Exclusive luxury treatments for the ultimate experience</p>
+        </div>
+        <div class="services-grid" id="premiumServicesGrid">
+        </div>
+      </div>
+    </section>
+
+     <footer>
+  <div class="container">
+    <div class="footer-content">
+      
+      <div class="footer-section brand-section">
+        <div class="footer-logo">
+          <i class="fas fa-spa"></i>
+          <span>SalonSnap</span>
+        </div>
+        <p class="footer-tagline">Where beauty meets perfection</p>
+        <p class="footer-description">
+          Transforming looks, boosting confidence since 2020. 
+          Your trusted partner for premium beauty and wellness services.
+        </p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h3><i class="fas fa-compass"></i> Explore</h3>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="services.html"><i class="fas fa-spa"></i> Our Services</a></li>
+          <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> Book Now</a></li>
+          <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
+          <li><a href="contact.html"><i class="fas fa-envelope"></i> Get in Touch</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3><i class="fas fa-life-ring"></i> Support</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+          <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+          <li><a href="#"><i class="fas fa-undo-alt"></i> Cancellation Policy</a></li>
+          <li><a href="#"><i class="fas fa-gift"></i> Gift Cards</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section contact-section">
+        <h3><i class="fas fa-address-card"></i> Connect With Us</h3>
+        <ul class="contact-info">
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <strong>Visit Us</strong>
+              <span>Sector No.26<br>Pradhikaran, Nigdi-411044<br>Pune, Maharashtra</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-phone-alt"></i>
+            <div>
+              <strong>Call Us</strong>
+              <span>+91 98765 43210</span>
+              <span class="small">(Mon-Sat: 9AM - 8PM)</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-envelope"></i>
+            <div>
+              <strong>Email Us</strong>
+              <span>hello@salonsnap.com</span>
+              <span class="small">care@salonsnap.com</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <p>&copy; 2025 SalonSnap Beauty Salon. All rights reserved.</p>
+        <p class="developer-credit">Crafted with <i class="fas fa-heart"></i> for beauty lovers</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const token = localStorage.getItem('token');
+const loginLink = document.getElementById('loginNavLink');
+const dashboardLink = document.getElementById('dashboardNavLink');
+if (token && loginLink && dashboardLink) {
+    loginLink.parentElement.style.display = 'none';
+    dashboardLink.parentElement.style.display = 'list-item';
+} else if (loginLink && dashboardLink) {
+    loginLink.parentElement.style.display = 'list-item';
+    dashboardLink.parentElement.style.display = 'none';
+}
+      const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+      const navLinks = document.getElementById("navLinks");
+
+      if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          navLinks.classList.toggle("active");
+          mobileMenuBtn.classList.toggle("active");
+        });
+      }
+
+      function setActiveNavLink() {
+        const currentPage =
+          window.location.pathname.split("/").pop() || "services.html";
+        const navLinks = document.querySelectorAll(".nav-links a");
+
+        navLinks.forEach((link) => {
+          const linkPage = link.getAttribute("href");
+          if (linkPage === currentPage) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", function () {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      const observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = 1;
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      );
+
+      document.addEventListener("DOMContentLoaded", function () {
+        loadServices();
+
+        setActiveNavLink();
+      });
+
+      document.addEventListener("click", function (e) {
+        if (
+          !e.target.closest(".navbar") &&
+          navLinks.classList.contains("active")
+        ) {
+          navLinks.classList.remove("active");
+        }
+      });
+       document.addEventListener('DOMContentLoaded', function() {
+        const bookButtons = document.querySelectorAll('.btn-primary');
+        
+        bookButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    sessionStorage.setItem('redirectAfterLogin', href);
+                    window.location.href = 'login.html';
+                }
+            });
+        });
+    });
+
+        async function loadServices() {
+            try {
+                const response = await fetch("/api/services-with-images");
+                const allServices = await response.json();
+                
+                const premiumServices = allServices.filter(s => s.is_premium);
+                const regularServices = allServices.filter(s => !s.is_premium);
+                
+                displayPremiumServices(premiumServices);
+                displayRegularServices(regularServices);
+            } catch (error) {
+                console.error("Error loading services:", error);
+            }
+        }
+
+        function displayPremiumServices(services) {
+            const premiumGrid = document.getElementById("premiumServicesGrid");
+            premiumGrid.innerHTML = "";
+            
+            services.forEach((service) => {
+                const serviceCard = createServiceCard(service);
+                premiumGrid.appendChild(serviceCard);
+            });
+        }
+
+        function displayRegularServices(services) {
+            const servicesGrid = document.getElementById("regularServicesGrid");
+            servicesGrid.innerHTML = "";
+            
+            services.forEach((service) => {
+                const serviceCard = createServiceCard(service);
+                servicesGrid.appendChild(serviceCard);
+            });
+        }
+
+        function createServiceCard(service) {
+            const serviceCard = document.createElement("div");
+            serviceCard.className = "service-card";
+            
+            const images = service.images && Array.isArray(service.images) && service.images.length > 0 ? service.images : [];
+            
+            let imageHtml = '';
+            if (images.length > 0) {
+                imageHtml = `
+                    <div class="service-image">
+                        <div class="image-carousel" data-images='${JSON.stringify(images)}' data-current="0">
+                            <img src="${images[0]}" alt="${escapeHtml(service.service_name)}" style="width:100%; height:100%; object-fit:cover;">
+                            ${images.length > 1 ? `
+                                <button class="carousel-prev"><i class="fas fa-chevron-left"></i></button>
+                                <button class="carousel-next"><i class="fas fa-chevron-right"></i></button>
+                                <div class="carousel-nav">
+                                    ${images.map((_, idx) => `<span class="carousel-dot ${idx === 0 ? 'active' : ''}"></span>`).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            } else {
+                const icon = service.is_premium === 1 || service.is_premium === true ? 'fa-crown' : 'fa-spa';
+                imageHtml = `
+                    <div class="service-image">
+                        <div class="image-placeholder">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            serviceCard.innerHTML = `
+                ${imageHtml}
+                <div class="service-content">
+                    <h3>${escapeHtml(service.service_name)}</h3>
+                    <p>${escapeHtml(service.description || 'Experience our premium beauty treatment')}</p>
+                    <div class="service-price">₹${service.price}</div>
+                    <div class="service-meta">
+                        <span><i class="fas fa-clock"></i> ${service.duration_minutes} mins</span>
+                        <span><i class="fas fa-user"></i> Professional</span>
+                    </div>
+                    <a href="appointment.html?service=${service.service_id}" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                        <i class="fas fa-calendar-plus"></i> Book Now
+                    </a>
+                </div>
+            `;
+            
+            if (images.length > 1) {
+                setTimeout(() => {
+                    initCarousel(serviceCard, images);
+                }, 100);
+            }
+            
+            return serviceCard;
+        }
+
+        function initCarousel(card, images) {
+            const imageContainer = card.querySelector('.image-carousel');
+            if (!imageContainer) return;
+            
+            const imgElement = imageContainer.querySelector('img');
+            const prevBtn = imageContainer.querySelector('.carousel-prev');
+            const nextBtn = imageContainer.querySelector('.carousel-next');
+            const dots = imageContainer.querySelectorAll('.carousel-dot');
+            
+            let currentIndex = 0;
+            let autoPlayInterval = null;
+            
+            const updateCarousel = (index) => {
+                imgElement.src = images[index];
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+                currentIndex = index;
+                imageContainer.dataset.current = index;
+            };
+            
+            const startAutoPlay = () => {
+                if (autoPlayInterval) clearInterval(autoPlayInterval);
+                autoPlayInterval = setInterval(() => {
+                    const nextIndex = (currentIndex + 1) % images.length;
+                    updateCarousel(nextIndex);
+                }, 2000);
+            };
+            
+            const stopAutoPlay = () => {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+            };
+            
+            card.addEventListener('mouseenter', startAutoPlay);
+            card.addEventListener('mouseleave', stopAutoPlay);
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    stopAutoPlay();
+                    const prevIndex = (currentIndex - 1 + images.length) % images.length;
+                    updateCarousel(prevIndex);
+                    setTimeout(startAutoPlay, 3000);
+                });
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    stopAutoPlay();
+                    const nextIndex = (currentIndex + 1) % images.length;
+                    updateCarousel(nextIndex);
+                    setTimeout(startAutoPlay, 3000);
+                });
+            }
+            
+            dots.forEach((dot, idx) => {
+                dot.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    stopAutoPlay();
+                    updateCarousel(idx);
+                    setTimeout(startAutoPlay, 3000);
+                });
+            });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+  </body>
+</html>
+

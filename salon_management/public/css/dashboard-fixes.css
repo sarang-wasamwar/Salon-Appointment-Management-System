@@ -1,0 +1,141 @@
+/* Dashboard fixes - expandable email field */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.email-field {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    max-width: 100%;
+    display: inline-block;
+}
+
+/* Expandable textarea for email */
+.expandable-textarea {
+    width: 100%;
+    min-height: 40px;
+    resize: vertical;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+}
+
+/* Receipt button */
+.receipt-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.receipt-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.receipt-btn i {
+    font-size: 14px;
+}
+
+/* Appointment card enhancements */
+.appointment-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.appointment-card.paid {
+    border-left-color: #4CAF50;
+}
+
+.appointment-card.pending {
+    border-left-color: #ff9800;
+}
+
+.appointment-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Payment status badge */
+.payment-badge {
+    display: inline-block;
+    padding: 0.2rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+.payment-badge.paid {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.payment-badge.pending {
+    background: #fff3e0;
+    color: #ef6c00;
+}
+
+/* Email field in detail card */
+.detail-content p#userEmail {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    max-width: 100%;
+    line-height: 1.4;
+}
+
+/* Responsive fixes for email */
+@media (max-width: 768px) {
+    .detail-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .detail-content p#userEmail {
+        font-size: 0.9rem;
+    }
+}
+
+/* Payment information section in appointment card */
+.payment-info {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px dashed #ddd;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.payment-amount {
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+.payment-method {
+    color: #666;
+    font-size: 0.9rem;
+}

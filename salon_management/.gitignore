@@ -1,0 +1,7 @@
+# Node modules (VERY IMPORTANT)
+
+node_modules/
+
+# Environment variables (if any)
+
+.env

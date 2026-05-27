@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard - SalonSnap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dashboard-fixes.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        :root {
+            --orange-soft: #ff9a3c; --orange-light: #ffb066; --orange-pale: #ffe2cc;
+            --orange-cream: #fff7f0; --pure-white: #ffffff; --dark-text: #7a4a2e;
+            --accent: #ff7a00; --light: #ff7a00; --shadow: 0 10px 30px rgba(255,154,60,0.18);
+        }
+        body { background: var(--pure-white); color: var(--dark-text); overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: rgba(255,247,240,0.95); backdrop-filter: blur(20px); padding: 0.8rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.08); transition: all 0.3s ease; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        header.scrolled { padding: 0.6rem 0; background: rgba(255,255,255,0.98); box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--orange-soft)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 8px; padding: 0.5rem 0; }
+        .logo i { font-size: 1.5rem; background: linear-gradient(135deg, var(--accent), var(--orange-soft)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; list-style: none; gap: 1.2rem; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--dark-text); font-weight: 500; font-size: 0.95rem; padding: 0.5rem 1rem; border-radius: 20px; transition: all 0.3s ease; position: relative; white-space: nowrap; }
+        .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: var(--accent); transition: all 0.3s ease; transform: translateX(-50%); }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); background: var(--orange-pale); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 60%; }
+        .mobile-menu-btn { display: none; flex-direction: column; gap: 4px; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 1001; }
+        .mobile-menu-btn span { width: 25px; height: 3px; background: var(--dark-text); transition: all 0.3s ease; border-radius: 2px; display: block; }
+        .mobile-menu-btn:hover span { background: var(--accent); }
+        .mobile-menu-btn.active span:nth-child(1) { transform: rotate(45deg) translate(7px,7px); }
+        .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
+        .mobile-menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(7px,-7px); }
+
+        .page-header { background: linear-gradient(135deg, var(--orange-soft) 0%, var(--orange-cream) 100%); color: var(--dark-text); padding: 140px 0 80px; text-align: center; margin-top: 80px; position: relative; overflow: hidden; }
+        .page-header h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin-bottom: 1rem; }
+        .page-header p { font-size: 1.3rem; max-width: 600px; margin: 0 auto; opacity: 0.9; }
+
+        .dashboard-section { padding: 4rem 0; background: white; }
+        .dashboard-container { background: white; border-radius: 25px; box-shadow: var(--shadow); padding: 2.5rem; border: 1px solid rgba(0,0,0,0.03); }
+        .dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .dashboard-header h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--dark-text); }
+        .logout-btn { background: #dc3545; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+        .logout-btn:hover { background: #c82333; transform: translateY(-2px); }
+        .user-profile-section {
+            background: linear-gradient(135deg, var(--orange-cream) 0%, white 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,154,60,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--accent), var(--orange-soft));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(255,122,0,0.2);
+        }
+        
+        .profile-title h3 {
+            font-size: 1.8rem;
+            color: var(--dark-text);
+            margin-bottom: 0.3rem;
+        }
+        
+        .profile-title p {
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .detail-card {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            border: 1px solid rgba(255,154,60,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .detail-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255,122,0,0.1);
+            border-color: var(--accent);
+        }
+        
+        .detail-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--orange-cream);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 1.2rem;
+        }
+        
+        .detail-content h4 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.2rem;
+        }
+        
+        .detail-content p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+        
+        .edit-profile-btn {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .edit-profile-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .tabs { display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid #eee; }
+        .tab { padding: 1rem 2rem; cursor: pointer; font-weight: 600; color: var(--dark-text); transition: all 0.3s ease; border-bottom: 2px solid transparent; }
+        .tab.active { color: var(--accent); border-bottom: 2px solid var(--accent); }
+
+        .appointments-list { min-height: 300px; }
+        .appointment-card { background: #f8f9fa; border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .appointment-info h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--dark-text); }
+        .appointment-info p { margin: 0.2rem 0; color: #666; }
+        .appointment-status { padding: 0.3rem 1rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
+        .status-scheduled { background: #fff0f5; color: #b05a7d; }
+        .status-completed { background: #e8f5e9; color: #2e7d32; }
+        .status-cancelled { background: #ffebee; color: #c62828; }
+        .no-appointments { text-align: center; padding: 3rem; color: #999; }
+        .btn { padding: 0.6rem 1.2rem; border: none; border-radius: 20px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); }
+        .btn-outline:hover { background: var(--accent); color: white; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--dark-text);
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark-text);
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .save-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .save-btn:hover {
+            background: var(--orange-soft);
+            transform: translateY(-2px);
+        }
+
+        footer { background: var(--dark-text); color: white; padding: 4rem 0 1.5rem; margin-top: 4rem; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
+        .footer-section h3 { margin-bottom: 1.5rem; color: var(--orange-light); font-size: 1.3rem; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links a { color: rgba(255,255,255,0.8); text-decoration: none; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
+        .footer-links a:hover { color: var(--orange-light); transform: translateX(5px); }
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); opacity: 0.7; }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .email-field {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-all;
+            max-width: 100%;
+            display: inline-block;
+        }
+
+        .expandable-textarea {
+            width: 100%;
+            min-height: 40px;
+            resize: vertical;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+        }
+
+        .receipt-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .receipt-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .receipt-btn i {
+            font-size: 14px;
+        }
+
+        .appointment-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .appointment-card.paid {
+            border-left-color: #4CAF50;
+        }
+
+        .appointment-card.pending {
+            border-left-color: #ff9800;
+        }
+
+        .appointment-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .payment-badge {
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .payment-badge.paid {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .payment-badge.pending {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+        .detail-content p#userEmail {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-all;
+            max-width: 100%;
+            line-height: 1.4;
+        }
+        @media (max-width: 768px) {
+            .detail-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .detail-content p#userEmail {
+                font-size: 0.9rem;
+            }
+        }
+        .payment-info {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed #ddd;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .payment-amount {
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .payment-method {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .receipt-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .receipt-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .receipt-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-text);
+        }
+
+        .receipt-info p {
+            margin: 0.2rem 0;
+            color: #666;
+        }
+
+        .receipt-amount {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .receipt-date {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .download-receipt-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .download-receipt-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.3);
+        }
+
+        .no-receipts {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo"><i class="fas fa-spa"></i>SalonSnap</div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="appointment.html">Book Appointment</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li class="auth-link"><a href="dashboard.html" class="active">Dashboard</a></li>
+                </ul>
+            </nav>
+            <script>
+                function updateNavbarAuth() {
+    const authLink = document.getElementById('authLink');
+    const authAnchor = document.getElementById('authAnchor');
+    const userLoggedIn = localStorage.getItem('userLoggedIn');
+    const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+    const userType = localStorage.getItem('userType');
+
+    if (userLoggedIn === 'true' || adminLoggedIn === 'true') {
+        if (userType === 'admin') {
+            authAnchor.innerHTML = '<i class="fas fa-user-shield"></i> Admin Panel';
+            authAnchor.href = 'admin.html';
+        } else {
+            authAnchor.innerHTML = '<i class="fas fa-user"></i> Dashboard';
+            authAnchor.href = 'dashboard.html';
+        }
+    } else {
+        authAnchor.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+        authAnchor.href = 'login.html';
+    }
+}
+
+// Call it on page load
+document.addEventListener('DOMContentLoaded', updateNavbarAuth);
+    function updateNavbarAuth() {
+        const loginNavLink = document.getElementById('loginNavLink');
+        const dashboardNavLink = document.getElementById('dashboardNavLink');
+        const userLoggedIn = localStorage.getItem('userLoggedIn');
+        const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+        
+        if (loginNavLink && dashboardNavLink) {
+            if (userLoggedIn === 'true' || adminLoggedIn === 'true') {
+                loginNavLink.parentElement.style.display = 'none';
+                dashboardNavLink.parentElement.style.display = 'list-item';
+                
+                const userType = localStorage.getItem('userType');
+                if (userType === 'admin') {
+                    dashboardNavLink.href = 'admin.html';
+                    dashboardNavLink.innerHTML = '<i class="fas fa-user-shield"></i> Admin Panel';
+                } else {
+                    dashboardNavLink.href = 'dashboard.html';
+                    dashboardNavLink.innerHTML = '<i class="fas fa-user"></i> Dashboard';
+                }
+            } else {
+                loginNavLink.parentElement.style.display = 'list-item';
+                dashboardNavLink.parentElement.style.display = 'none';
+            }
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', updateNavbarAuth);
+</script>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>My Dashboard</h1>
+            <p>View your profile and appointment history</p>
+        </div>
+    </section>
+
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h2>Welcome, <span id="userName">User</span>!</h2>
+                    <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+                <div class="user-profile-section">
+                    <div class="profile-header">
+                        <div class="profile-avatar" id="userAvatar">
+                            <span id="avatarInitial">U</span>
+                        </div>
+                        <div class="profile-title">
+                            <h3 id="profileName">Loading...</h3>
+                            <p><i class="fas fa-user-circle"></i> <span id="memberSince"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Email Address</h4>
+                                <p id="userEmail">-</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Phone Number</h4>
+                                <p id="userPhone">-</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Total Appointments</h4>
+                                <p id="totalAppointments">0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-card">
+                            <div class="detail-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="detail-content">
+                                <h4>Member Since</h4>
+                                <p id="memberDate">-</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="edit-profile-btn" onclick="openEditProfileModal()">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" onclick="showTab('upcoming')">Upcoming</div>
+                    <div class="tab" onclick="showTab('history')">History</div>
+                    <div class="tab" onclick="showTab('receipts')">Receipts</div>
+                </div>
+
+                <div id="upcomingTab" class="appointments-list">
+                    <div class="no-appointments">Loading...</div>
+                </div>
+
+                <div id="historyTab" class="appointments-list" style="display: none;">
+                </div>
+                <div id="receiptsTab" class="appointments-list" style="display: none;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal" id="editProfileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Profile</h3>
+                <button class="close-modal" onclick="closeEditProfileModal()">&times;</button>
+            </div>
+            <form id="editProfileForm" onsubmit="updateProfile(event)">
+                <div class="form-group">
+                    <label for="editFullName">Full Name</label>
+                    <input type="text" id="editFullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editPhone">Phone Number</label>
+                    <input type="tel" id="editPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email</label>
+                    <input type="email" id="editEmail" required readonly style="background: #f5f5f5;">
+                    <small style="color: #666;">Email cannot be changed</small>
+                </div>
+                <button type="submit" class="save-btn">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+     <footer>
+  <div class="container">
+    <div class="footer-content">
+      
+      <div class="footer-section brand-section">
+        <div class="footer-logo">
+          <i class="fas fa-spa"></i>
+          <span>SalonSnap</span>
+        </div>
+        <p class="footer-tagline">Where beauty meets perfection</p>
+        <p class="footer-description">
+          Transforming looks, boosting confidence since 2020. 
+          Your trusted partner for premium beauty and wellness services.
+        </p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-compass"></i> Explore</h3>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="services.html"><i class="fas fa-spa"></i> Our Services</a></li>
+          <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> Book Now</a></li>
+          <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
+          <li><a href="contact.html"><i class="fas fa-envelope"></i> Get in Touch</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3><i class="fas fa-life-ring"></i> Support</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+          <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+          <li><a href="#"><i class="fas fa-undo-alt"></i> Cancellation Policy</a></li>
+          <li><a href="#"><i class="fas fa-gift"></i> Gift Cards</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact-section">
+        <h3><i class="fas fa-address-card"></i> Connect With Us</h3>
+        <ul class="contact-info">
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <strong>Visit Us</strong>
+              <span>Sector No.26<br>Pradhikaran, Nigdi-411044<br>Pune, Maharashtra</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-phone-alt"></i>
+            <div>
+              <strong>Call Us</strong>
+              <span>+91 98765 43210</span>
+              <span class="small">(Mon-Sat: 9AM - 8PM)</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-envelope"></i>
+            <div>
+              <strong>Email Us</strong>
+              <span>hello@salonsnap.com</span>
+              <span class="small">care@salonsnap.com</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <p>&copy; 2025 SalonSnap Beauty Salon. All rights reserved.</p>
+        <p class="developer-credit">Crafted with <i class="fas fa-heart"></i> for beauty lovers</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    mobileMenuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        mobileMenuBtn.classList.toggle('active');
+    });
+    const token = localStorage.getItem('token');
+    const customerId = localStorage.getItem('customer_id');
+    
+    if (!token || !customerId) {
+        window.location.href = 'login.html';
+    }
+    let userData = null;
+    let appointments = [];
+    async function fetchUserData() {
+        try {
+            console.log('Fetching user data for customer ID:', customerId);
+            
+            const response = await fetch(`/api/customers/${customerId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('customer_id');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            userData = await response.json();
+            console.log('User data received:', userData);
+            
+            updateUserProfile();
+            
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            
+            document.getElementById('userName').textContent = 'User';
+            document.getElementById('profileName').textContent = 'User';
+            document.getElementById('userEmail').textContent = 'Not available';
+            document.getElementById('userPhone').textContent = 'Not available';
+        }
+    }
+
+    function updateUserProfile() {
+        if (!userData) return;
+        
+        const fullName = userData.full_name || 'User';
+        const firstName = fullName.split(' ')[0]; 
+        const email = userData.email || 'Not provided';
+        const phone = userData.phone || 'Not provided';
+        
+        let memberDate = 'Recent';
+        if (userData.created_at) {
+            const createdDate = new Date(userData.created_at);
+            memberDate = createdDate.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long'
+            });
+        }
+        
+        document.getElementById('userName').textContent = fullName;
+        
+        document.getElementById('profileName').textContent = fullName;
+        document.getElementById('userEmail').textContent = email;
+        document.getElementById('userPhone').textContent = phone;
+        
+        const initial = fullName.charAt(0).toUpperCase();
+        document.getElementById('avatarInitial').textContent = initial;
+        
+        document.getElementById('memberDate').textContent = memberDate;
+        document.getElementById('memberSince').textContent = `Member since ${memberDate}`;
+        
+        document.getElementById('editFullName').value = fullName;
+        document.getElementById('editPhone').value = phone;
+        document.getElementById('editEmail').value = email;
+    }
+    async function fetchAppointments() {
+        try {
+            console.log('Fetching appointments...');
+            
+            const response = await fetch('/api/user/appointments', {
+                headers: { 
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('customer_id');
+                    window.location.href = 'login.html';
+                }
+                throw new Error('Failed to fetch appointments');
+            }
+            
+            appointments = await response.json();
+            console.log('Appointments received:', appointments);
+            
+            document.getElementById('totalAppointments').textContent = appointments.length;
+            
+            renderAppointments(appointments);
+        } catch (err) {
+            console.error('Error fetching appointments:', err);
+            document.querySelector('#upcomingTab').innerHTML = '<div class="no-appointments">Error loading appointments</div>';
+        }
+    }
+
+    function renderAppointments(appointments) {
+        const upcomingDiv = document.getElementById('upcomingTab');
+        const historyDiv = document.getElementById('historyTab');
+
+        const upcoming = appointments.filter(a => a.status === 'Scheduled' || a.status === 'Confirmed');
+        const history = appointments.filter(a => a.status === 'Completed' || a.status === 'Cancelled');
+
+        upcomingDiv.innerHTML = '';
+        historyDiv.innerHTML = '';
+
+        if (upcoming.length === 0) {
+            upcomingDiv.innerHTML = '<div class="no-appointments">No upcoming appointments</div>';
+        } else {
+            upcoming.forEach(appt => {
+                upcomingDiv.appendChild(createAppointmentCard(appt));
+            });
+        }
+        
+        if (history.length === 0) {
+            historyDiv.innerHTML = '<div class="no-appointments">No past appointments</div>';
+        } else {
+            history.forEach(appt => {
+                historyDiv.appendChild(createAppointmentCard(appt));
+            });
+        }
+    }
+    async function loadReceipts() {
+        const receiptsContainer = document.getElementById('receiptsTab');
+        receiptsContainer.innerHTML = '<div class="no-receipts">Loading receipts...</div>';
+        
+        try {
+            const response = await fetch(`/api/payments/customer/${customerId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('customer_id');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                throw new Error('Failed to fetch receipts');
+            }
+            
+            const receipts = await response.json();
+            console.log('Receipts loaded:', receipts);
+            
+            if (!receipts || receipts.length === 0) {
+                receiptsContainer.innerHTML = '<div class="no-receipts">No receipts found.</div>';
+                return;
+            }
+            
+            receiptsContainer.innerHTML = receipts.map(receipt => `
+                <div class="receipt-card">
+                    <div class="receipt-info">
+                        <h3>${receipt.service_name || 'Service'}</h3>
+                        <p><i class="fas fa-calendar-alt"></i> ${new Date(receipt.appointment_date).toLocaleDateString()} at ${receipt.appointment_time || 'N/A'}</p>
+                        <p><i class="fas fa-receipt"></i> Receipt #${receipt.payment_id}</p>
+                        <p class="receipt-date"><i class="fas fa-clock"></i> Paid on: ${new Date(receipt.payment_date).toLocaleString()}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="receipt-amount">₹${parseFloat(receipt.amount).toFixed(2)}</div>
+                        <p><span class="payment-badge ${receipt.payment_status === 'Completed' ? 'paid' : 'pending'}">${receipt.payment_status || 'Completed'}</span></p>
+                        <button onclick="downloadReceiptById(${receipt.payment_id}, '${receipt.receipt_url}')" class="download-receipt-btn">
+                            <i class="fas fa-download"></i> Download Receipt
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+        } catch (error) {
+            console.error('Error loading receipts:', error);
+            receiptsContainer.innerHTML = '<div class="no-receipts">Error loading receipts. Please try again.</div>';
+        }
+    }
+    function downloadReceiptById(paymentId, receiptUrl) {
+        if (receiptUrl && receiptUrl !== 'null' && receiptUrl !== '') {
+            window.open(receiptUrl, '_blank');
+        } else {
+            alert('Receipt not available. Please contact support.');
+        }
+    }
+
+    function createAppointmentCard(appt) {
+        const card = document.createElement('div');
+        card.className = `appointment-card ${appt.payment_status?.toLowerCase() || 'pending'}`;
+
+        const date = new Date(appt.appointment_date);
+        const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        const time = appt.appointment_time ? appt.appointment_time.slice(0,5) : 'TBD';
+
+        let statusClass = '';
+        let statusText = appt.status || 'Scheduled';
+        
+        if (statusText === 'Scheduled' || statusText === 'Confirmed') statusClass = 'status-scheduled';
+        else if (statusText === 'Completed') statusClass = 'status-completed';
+        else if (statusText === 'Cancelled') statusClass = 'status-cancelled';
+        const paymentStatus = appt.payment_status || 'Pending';
+        const paymentBadgeClass = paymentStatus.toLowerCase() === 'paid' ? 'paid' : 'pending';
+
+        card.innerHTML = `
+            <div class="appointment-info">
+                <h3>${appt.service_name || 'Service'}</h3>
+                <p><i class="far fa-calendar-alt"></i> ${formattedDate} at ${time}</p>
+                <p><i class="fas fa-user"></i> Staff: ${appt.staff_name || 'To be assigned'}</p>
+                <p><i class="fas fa-tag"></i> ₹${appt.price || 'N/A'}</p>
+                ${appt.notes ? `<p><i class="fas fa-sticky-note"></i> Notes: ${appt.notes}</p>` : ''}
+                
+                <!-- Payment Information Section -->
+                <div class="payment-info">
+                    <span class="payment-amount">Amount: ₹${appt.price || 'N/A'}</span>
+                    <span class="payment-badge ${paymentBadgeClass}">${paymentStatus}</span>
+                    ${appt.payment_method ? `<span class="payment-method"> via ${appt.payment_method === 'Online' ? 'Online' : 'Cash'}</span>` : ''}
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 10px;">
+                <span class="appointment-status ${statusClass}">${statusText}</span>
+                ${appt.payment_status === 'Paid' ? `
+                    <button onclick="downloadReceipt(${appt.appointment_id})" class="receipt-btn">
+                        <i class="fas fa-download"></i> Download Receipt
+                    </button>
+                ` : ''}
+            </div>
+        `;
+        return card;
+    }
+
+    function showTab(tab) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.appointments-list').forEach(d => d.style.display = 'none');
+        
+        if (tab === 'upcoming') {
+            document.querySelectorAll('.tab')[0].classList.add('active');
+            document.getElementById('upcomingTab').style.display = 'block';
+        } else if (tab === 'history') {
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            document.getElementById('historyTab').style.display = 'block';
+        } else if (tab === 'receipts') {
+            document.querySelectorAll('.tab')[2].classList.add('active');
+            document.getElementById('receiptsTab').style.display = 'block';
+            loadReceipts(); 
+        }
+    }
+    async function downloadReceipt(appointmentId) {
+        try {
+            const response = await fetch(`/api/appointments/${appointmentId}/receipt`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || 'Failed to download receipt');
+            }
+            const blob = await response.blob();
+   
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `receipt_${appointmentId}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+            
+        } catch (error) {
+            console.error('Error downloading receipt:', error);
+            alert('Failed to download receipt. Please try again.');
+        }
+    }
+    function openEditProfileModal() {
+        document.getElementById('editProfileModal').classList.add('active');
+    }
+
+    function closeEditProfileModal() {
+        document.getElementById('editProfileModal').classList.remove('active');
+    }
+
+    async function updateProfile(event) {
+        event.preventDefault();
+        
+        const fullName = document.getElementById('editFullName').value;
+        const phone = document.getElementById('editPhone').value;
+        
+        try {
+            console.log('Updating profile:', { fullName, phone });
+            
+            const response = await fetch(`/api/customers/${customerId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    full_name: fullName,
+                    phone: phone
+                })
+            });
+            
+            if (response.ok) {
+                userData.full_name = fullName;
+                userData.phone = phone;
+                updateUserProfile();
+                closeEditProfileModal();
+                alert('Profile updated successfully!');
+            } else {
+                const error = await response.json();
+                alert('Error updating profile: ' + (error.error || 'Unknown error'));
+            }
+        } catch (err) {
+            console.error('Error updating profile:', err);
+            alert('Failed to update profile. Please try again.');
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('customer_id');
+        window.location.href = 'index.html';
+    }
+
+    window.addEventListener('click', (e) => {
+        const modal = document.getElementById('editProfileModal');
+        if (e.target === modal) {
+            closeEditProfileModal();
+        }
+    });
+
+    window.addEventListener('scroll', () => {
+        document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchUserData();
+        fetchAppointments();
+    });
+</script>
+</body>
+</html>

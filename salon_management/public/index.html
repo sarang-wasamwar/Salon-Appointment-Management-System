@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SalonSnap - Premium Beauty Experience</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      :root {
+        --orange-soft: #ff9a3c;
+        --orange-light: #ffb066;
+        --orange-pale: #ffe2cc;
+        --orange-cream: #fff7f0;
+        --pure-white: #ffffff;
+        --off-white: #fffaf5;
+        --dark-text: #7a4a2e;
+        --soft-text: #a66a3f;
+        --light-text: #ffffff;
+        --accent: #ff7a00;
+        --light: #ff7a00;
+        --bg-card: #ffffff;
+        --soft-border: #ffe2cc;
+        --soft-hover: #ffb066;
+        --gradient: linear-gradient(135deg, #fff7f0, #ffe2cc, #ff9a3c);
+        --shadow: 0 10px 30px rgba(255, 154, 60, 0.18);
+      }
+
+      body {
+        background: var(--light);
+        color: var(--dark-text);
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background: rgba(255, 247, 240, 0.95) ;
+        backdrop-filter: blur(20px);
+        padding: 0.8rem 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      header.scrolled {
+        padding: 0.6rem 0;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+      }
+
+      .logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--accent), var(--orange-soft));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0.5rem 0;
+      }
+
+      .logo i {
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, var(--accent), var(--orange-soft));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 1.2rem;
+        align-items: center;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--dark-text);
+        font-weight: 500;
+        font-size: 0.95rem;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+        position: relative;
+        white-space: nowrap;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--accent);
+        background: var(--orange-pale);
+      }
+
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 60%;
+      }
+
+      .auth-buttons {
+        display: flex;
+        gap: 0.8rem;
+        align-items: center;
+      }
+
+      .btn {
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: var(--shadow);
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--accent), var(--orange-cream));
+        color: white;
+        border: 1.5px solid var(--orange-soft);
+      }
+
+      .btn-outline {
+        background: linear-gradient(135deg, var(--orange-cream), var(--accent));
+        border: 1.5px solid var(--orange-soft);
+        color: var(--dark-text);
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #ffb066, var(--accent));
+      }
+
+      .btn-outline:hover {
+        background: linear-gradient(135deg, #ffb066, var(--accent));
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        position: relative;
+        z-index: 1001;
+      }
+
+      .mobile-menu-btn span {
+        width: 25px;
+        height: 3px;
+        background: var(--dark-text);
+        transition: all 0.3s ease;
+        border-radius: 2px;
+        display: block;
+      }
+
+      .mobile-menu-btn:hover span {
+        background: var(--accent);
+      }
+
+      .mobile-menu-btn.active span:nth-child(1) {
+        transform: rotate(45deg) translate(7px, 7px);
+      }
+
+      .mobile-menu-btn.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .mobile-menu-btn.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+
+      .hero {
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        color: var(--dark-text);
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          #ff9a3c 0%,
+          #ffe2cc 40%,
+          #fff7f0 100%
+        );
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.03"><path fill="%23FF6B8B" d="M500,200c150,0,250,100,250,250S650,700,500,700S250,600,250,450S350,200,500,200z"/></svg>');
+        background-size: 600px;
+        animation: float 20s infinite linear;
+      }
+
+      @keyframes float {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 600px 600px;
+        }
+      }
+
+      .hero-content {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+        animation: fadeInUp 1s ease;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        color: var(--dark-text);
+        line-height: 1.1;
+      }
+
+      .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
+        line-height: 1.6;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+
+      .floating-elements {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .floating-element {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        animation: floatElement 15s infinite linear;
+      }
+
+      .floating-element:nth-child(1) {
+        width: 80px;
+        height: 80px;
+        top: 20%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+
+      .floating-element:nth-child(2) {
+        width: 120px;
+        height: 120px;
+        top: 60%;
+        left: 80%;
+        animation-delay: -5s;
+      }
+
+      .floating-element:nth-child(3) {
+        width: 60px;
+        height: 60px;
+        top: 80%;
+        left: 20%;
+        animation-delay: -10s;
+      }
+
+      @keyframes floatElement {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0.7;
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0) rotate(360deg);
+          opacity: 0.7;
+        }
+      }
+
+      .features {
+        padding: 6rem 0;
+        background: white;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-title h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        color: var(--dark-text);
+        margin-bottom: 1rem;
+      }
+
+      .section-title p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        color: var(--dark-text);
+        opacity: 0.8;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+        gap: 2.5rem;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 2.5rem 2rem;
+        border-radius: 20px;
+        text-align: center;
+        transition: all 0.4s ease;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(
+          135deg,
+          var(--orange-cream),
+          var(--orange-soft)
+        );
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-icon {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, var(--accent), var(--orange-cream));
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+        transition: all 0.3s ease;
+      }
+
+      .feature-card:hover .feature-icon {
+        transform: scale(1.1);
+      }
+
+      .feature-card h3 {
+        color: var(--dark-text);
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .feature-card p {
+        color: var(--dark-text);
+        line-height: 1.6;
+        opacity: 0.8;
+      }
+
+      .services-preview {
+        padding: 6rem 0;
+        background: linear-gradient(
+          155deg,
+          #ff9a3c 0%,
+          #ffe2cc 40%,
+          #fff7f0 100%
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .services-preview::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.03"><polygon fill="%23FF6B8B" points="500,200 650,450 500,700 350,450"/></svg>');
+        background-size: 500px;
+        animation: float 25s infinite linear;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+        gap: 2rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      .service-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.4s ease;
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      }
+
+      .service-image {
+        height: 200px;
+        background: linear-gradient(
+          135deg,
+          var(--orange-cream),
+          var(--orange-soft)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 3.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-image::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+      }
+
+      .service-content {
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .service-content h3 {
+        color: var(--dark-text);
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+      }
+
+      .service-content p {
+        color: var(--dark-text);
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+        opacity: 0.8;
+        flex-grow: 1;
+      }
+
+      .service-price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--accent);
+        margin-bottom: 1rem;
+      }
+
+      .service-meta {
+        display: flex;
+        justify-content: space-between;
+        color: var(--dark-text);
+        font-size: 0.9rem;
+        opacity: 0.7;
+        margin-top: auto;
+      }
+
+      .cta-section {
+        padding: 5rem 0;
+        background: linear-gradient(
+          155deg,
+          #fff7f0 0%,
+          #ffe2cc 40%,
+          #ff9a3c 100%
+        );
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" opacity="0.03"><circle fill="%23FF6B8B" cx="500" cy="500" r="200"/></svg>');
+        background-size: 400px;
+        animation: float 20s infinite linear;
+      }
+
+      .cta-content {
+        max-width: 700px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      .cta-content h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        color: var(--dark-text);
+      }
+
+      .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2.5rem;
+        opacity: 0.9;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+
+      footer {
+        background: var(--dark-text);
+        color: white;
+        padding: 4rem 0 1.5rem;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+        margin-bottom: 3rem;
+      }
+
+      .footer-section h3 {
+        margin-bottom: 1.5rem;
+        color: var(--orange-light);
+        font-size: 1.3rem;
+      }
+
+      .footer-section p {
+        margin-bottom: 1rem;
+        opacity: 0.8;
+        line-height: 1.6;
+      }
+
+      .footer-links {
+        list-style: none;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.8rem;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .footer-links a:hover {
+        color: var(--orange-light);
+        transform: translateX(5px);
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: white;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        background: var(--accent);
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        opacity: 0.7;
+      }
+
+      @media (max-width: 1024px) {
+        .nav-links {
+          gap: 0.8rem;
+        }
+
+        .nav-links a {
+          padding: 0.4rem 0.8rem;
+          font-size: 0.9rem;
+        }
+
+        .btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.85rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .navbar {
+          height: 60px;
+        }
+
+        .logo {
+          font-size: 1.6rem;
+        }
+
+        .logo i {
+          font-size: 1.3rem;
+        }
+
+        .mobile-menu-btn {
+          display: flex;
+        }
+
+        .nav-links {
+          position: fixed;
+          top: 80px;
+          left: 0;
+          width: 100%;
+          background: white;
+          flex-direction: column;
+          padding: 2rem;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          transform: translateY(-100%);
+          opacity: 0;
+          transition: all 0.3s ease;
+          z-index: 999;
+        }
+
+        .nav-links.active {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .nav-links a {
+          padding: 1rem;
+          text-align: center;
+          border-radius: 10px;
+          margin-bottom: 0.5rem;
+        }
+
+        .auth-buttons {
+          flex-direction: column;
+          width: 100%;
+          gap: 0.5rem;
+        }
+
+        .auth-buttons .btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .hero {
+          padding: 100px 0 60px;
+          min-height: 80vh;
+          height: auto;
+        }
+
+        .hero h1 {
+          font-size: 2.8rem;
+          line-height: 1.2;
+        }
+
+        .hero p {
+          font-size: 1.1rem;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .hero-buttons .btn {
+          width: 100%;
+          max-width: 300px;
+          justify-content: center;
+        }
+
+        .section-title h2 {
+          font-size: 2.2rem;
+        }
+
+        .section-title p {
+          font-size: 1rem;
+          padding: 0 10px;
+        }
+
+        .features {
+          padding: 4rem 0;
+        }
+
+        .container {
+          padding: 0 15px;
+        }
+
+        .features-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+
+        .services-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+          padding: 0;
+        }
+
+        .service-card {
+          margin: 0;
+          max-width: 100%;
+          width: 100%;
+        }
+
+        .service-content {
+          padding: 1.5rem;
+        }
+
+        .service-content h3 {
+          font-size: 1.2rem;
+        }
+
+        .service-price {
+          font-size: 1.3rem;
+        }
+
+        .cta-section {
+          padding: 4rem 0;
+        }
+
+        .cta-content h2 {
+          font-size: 2rem;
+        }
+
+        .cta-content p {
+          font-size: 1rem;
+        }
+
+        .footer-content {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .logo {
+          font-size: 1.4rem;
+        }
+
+        .container {
+          padding: 0 10px;
+        }
+
+        .hero {
+          padding: 80px 0 40px;
+        }
+
+        .hero h1 {
+          font-size: 2.2rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .section-title h2 {
+          font-size: 1.8rem;
+        }
+
+        .page-header {
+          padding: 120px 0 60px;
+        }
+
+        .page-header h1 {
+          font-size: 2rem;
+        }
+
+        .page-header p {
+          font-size: 1rem;
+        }
+
+        .btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.85rem;
+        }
+
+        .service-content h3 {
+          font-size: 1.1rem;
+        }
+
+        .service-meta {
+          font-size: 0.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <div class="container">
+        <nav class="navbar">
+          <div class="logo">
+            <i class="fas fa-spa"></i>
+              SalonSnap
+          </div>
+
+          <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="nav-link active">Home</a></li>
+            <li><a href="services.html" class="nav-link">Services</a></li>
+            <li><a href="appointment.html" class="nav-link">Book Appointment</a></li>
+            <li><a href="about.html" class="nav-link">About Us</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
+            <li><a href="login.html" class = "nav-link" >Login/Register</a></li>
+            <li class="auth-link"><a href="login.html" id="loginNavLink">Login</a></li>
+<li class="auth-link"><a href="dashboard.html" id="dashboardNavLink">Dashboard</a></li>
+          </ul>
+        </nav>
+<script>
+  function updateNavbarAuth() {
+    const authAnchor = document.getElementById('authAnchor');
+    const userLoggedIn = localStorage.getItem('userLoggedIn');
+    const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+    const userType = localStorage.getItem('userType');
+
+    if (userLoggedIn === 'true' || adminLoggedIn === 'true') {
+        if (userType === 'admin') {
+            authAnchor.innerHTML = '<i class="fas fa-user-shield"></i> Admin Panel';
+            authAnchor.href = 'admin.html';
+        } else {
+            authAnchor.innerHTML = '<i class="fas fa-user"></i> Dashboard';
+            authAnchor.href = 'dashboard.html';
+        }
+    } else {
+        authAnchor.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login/Register';
+        authAnchor.href = 'login.html';
+    }
+}
+
+// Call it when page loads
+document.addEventListener('DOMContentLoaded', updateNavbarAuth);
+// Call it on page load
+document.addEventListener('DOMContentLoaded', updateNavbarAuth);
+    function updateNavbarAuth() {
+        const loginNavLink = document.getElementById('loginNavLink');
+        const dashboardNavLink = document.getElementById('dashboardNavLink');
+        const userLoggedIn = localStorage.getItem('userLoggedIn');
+        const adminLoggedIn = localStorage.getItem('adminLoggedIn');
+        
+        if (loginNavLink && dashboardNavLink) {
+            if (userLoggedIn === 'true' || adminLoggedIn === 'true') {
+                loginNavLink.parentElement.style.display = 'none';
+                dashboardNavLink.parentElement.style.display = 'list-item';
+                const userType = localStorage.getItem('userType');
+                if (userType === 'admin') {
+                    dashboardNavLink.href = 'admin.html';
+                    dashboardNavLink.innerHTML = '<i class="fas fa-user-shield"></i> Admin Panel';
+                } else {
+                    dashboardNavLink.href = 'dashboard.html';
+                    dashboardNavLink.innerHTML = '<i class="fas fa-user"></i> Dashboard';
+                }
+            } else {
+                loginNavLink.parentElement.style.display = 'list-item';
+                dashboardNavLink.parentElement.style.display = 'none';
+            }
+        }
+    }
+    document.addEventListener('DOMContentLoaded', updateNavbarAuth);
+</script>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+      </div>
+      <div class="container">
+        <div class="hero-content">
+          <h1>Transform Your Look at SalonSnap</h1>
+          <p>
+            Experience premium beauty treatments and expert care. Book your appointment today and let our professionals help you look and feel your best.
+          </p>
+          <div class="hero-buttons">
+            <a href="appointment.html" class="btn btn-primary pulse">
+              <i class="fas fa-calendar-check"></i> Book Appointment
+            </a>
+            <a href="services.html" class="btn btn-outline">
+              <i class="fas fa-spa"></i> Explore Services
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <div class="section-title">
+          <h2>Why Choose SalonSnap?</h2>
+          <p>Where beauty meets excellence</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <h3>Expert Stylists</h3>
+            <p>
+              Our certified professionals bring years of experience and creativity to every service.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-gem"></i>
+            </div>
+            <h3>Premium Products</h3>
+            <p>
+              We use only the finest, cruelty-free products from trusted global brands.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <h3>Flexible Hours</h3>
+            <p>
+              Convenient scheduling with weekend and evening appointments available.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-content">
+          <h2>Ready to Feel Beautiful?</h2>
+          <p>
+            Join thousands of happy customers who trust SalonSnap for their beauty needs.
+          </p>
+          <a
+            href="appointment.html"
+            class="btn btn-primary pulse"
+            style="padding: 1rem 2.5rem; font-size: 1.1rem"
+          >
+            <i class="fas fa-calendar-plus"></i> Book Now
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+  <div class="container">
+    <div class="footer-content">
+      
+      <div class="footer-section brand-section">
+        <div class="footer-logo">
+          <i class="fas fa-spa"></i>
+          <span>SalonSnap</span>
+        </div>
+        <p class="footer-tagline">Where beauty meets perfection</p>
+        <p class="footer-description">
+          Transforming looks, boosting confidence since 2020. 
+          Your trusted partner for premium beauty and wellness services.
+        </p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h3><i class="fas fa-compass"></i> Explore</h3>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="services.html"><i class="fas fa-spa"></i> Our Services</a></li>
+          <li><a href="appointment.html"><i class="fas fa-calendar-check"></i> Book Now</a></li>
+          <li><a href="about.html"><i class="fas fa-heart"></i> Our Story</a></li>
+          <li><a href="contact.html"><i class="fas fa-envelope"></i> Get in Touch</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3><i class="fas fa-life-ring"></i> Support</h3>
+        <ul class="footer-links">
+          <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+          <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+          <li><a href="#"><i class="fas fa-undo-alt"></i> Cancellation Policy</a></li>
+          <li><a href="#"><i class="fas fa-gift"></i> Gift Cards</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section contact-section">
+        <h3><i class="fas fa-address-card"></i> Connect With Us</h3>
+        <ul class="contact-info">
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <strong>Visit Us</strong>
+              <span>Sector No.26<br>Pradhikaran, Nigdi-411044<br>Pune, Maharashtra</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-phone-alt"></i>
+            <div>
+              <strong>Call Us</strong>
+              <span>+91 98765 43210</span>
+              <span class="small">(Mon-Sat: 9AM - 8PM)</span>
+            </div>
+          </li>
+          <li>
+            <i class="fas fa-envelope"></i>
+            <div>
+              <strong>Email Us</strong>
+              <span>hello@salonsnap.com</span>
+              <span class="small">care@salonsnap.com</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <p>&copy; 2025 SalonSnap Beauty Salon. All rights reserved.</p>
+        <p class="developer-credit">Crafted with <i class="fas fa-heart"></i> for beauty lovers</p>
+      </div>
+    </div>
+  </div>
+</footer>
+    <script>
+const token = localStorage.getItem('token');
+const loginLink = document.getElementById('loginNavLink');
+const dashboardLink = document.getElementById('dashboardNavLink');
+if (token && loginLink && dashboardLink) {
+    loginLink.parentElement.style.display = 'none';
+    dashboardLink.parentElement.style.display = 'list-item';
+} else if (loginLink && dashboardLink) {
+    loginLink.parentElement.style.display = 'list-item';
+    dashboardLink.parentElement.style.display = 'none';
+}
+      const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+      const navLinks = document.getElementById("navLinks");
+
+      if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          navLinks.classList.toggle("active");
+          mobileMenuBtn.classList.toggle("active");
+        });
+      }
+
+      function setActiveNavLink() {
+        const currentPage =
+          window.location.pathname.split("/").pop() || "index.html";
+        const navLinks = document.querySelectorAll(".nav-links a");
+
+        navLinks.forEach((link) => {
+          const linkPage = link.getAttribute("href");
+          if (linkPage === currentPage) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", function () {
+        const header = document.getElementById("header");
+        if (window.scrollY > 50) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      const observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.style.opacity = 1;
+              entry.target.style.transform = "translateY(0)";
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      );
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const animatedElements = document.querySelectorAll(
+          ".feature-card, .service-card"
+        );
+
+        animatedElements.forEach((el) => {
+          el.style.opacity = 0;
+          el.style.transform = "translateY(20px)";
+          el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+          observer.observe(el);
+        });
+
+        setActiveNavLink();
+      });
+
+      document.addEventListener("click", function (e) {
+        if (
+          !e.target.closest(".navbar") &&
+          navLinks.classList.contains("active")
+        ) {
+          navLinks.classList.remove("active");
+        }
+      });
+
+      async function fetchPremiumServices() {
+        try {
+          const response = await fetch("/api/premium");
+          const services = await response.json();
+          displayPremiumServices(services.slice(0, 3));
+        } catch (error) {
+          console.error("Error fetching premium services:", error);
+        }
+      }
+
+      function displayPremiumServices(services) {
+        const servicesGrid = document.querySelector(".services-grid");
+        servicesGrid.innerHTML = "";
+
+        services.forEach((service) => {
+          const serviceCard = document.createElement("div");
+          serviceCard.className = "service-card";
+          serviceCard.innerHTML = `
+                    <div class="service-image">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="service-content">
+                        <h3>${service.service_name}</h3>
+                        <p>${service.description}</p>
+                        <div class="service-price">Starting from ₹${service.price}</div>
+                        <div class="service-meta">
+                            <span><i class="fas fa-clock"></i> ${service.duration_minutes} mins</span>
+                            <span><i class="fas fa-star"></i> Premium Service</span>
+                        </div>
+                    </div>
+                `;
+          servicesGrid.appendChild(serviceCard);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchPremiumServices();
+      });
+    </script> 
+  </body>
+</html>

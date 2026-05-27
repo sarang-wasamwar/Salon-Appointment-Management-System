@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment - SalonSnap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --orange-soft: #ff9a3c;
+            --orange-light: #ffb066;
+            --orange-pale: #ffe2cc;
+            --orange-cream: #fff7f0;
+            --pure-white: #ffffff;
+            --dark-text: #7a4a2e;
+            --accent: #ff7a00;
+            --shadow: 0 10px 30px rgba(255,154,60,0.18);
+        }
+
+        body {
+            background: var(--orange-cream);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .payment-wrapper {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .payment-card {
+            background: var(--pure-white);
+            border-radius: 30px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255,154,60,0.2);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .payment-header h2 {
+            font-size: 2rem;
+            color: var(--dark-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .service-summary {
+            background: var(--orange-cream);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,154,60,0.2);
+        }
+
+        .service-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed rgba(255,154,60,0.3);
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-label {
+            color: #666;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-label i {
+            color: var(--accent);
+            width: 20px;
+        }
+
+        .service-value {
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .total-amount {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(255,154,60,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        .total-amount span:first-child {
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .total-amount .price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .payment-methods {
+            margin-bottom: 2rem;
+        }
+
+        .payment-methods h3 {
+            color: var(--dark-text);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .payment-option {
+            background: var(--orange-cream);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-option:hover {
+            transform: translateX(5px);
+            border-color: var(--accent);
+            background: white;
+        }
+
+        .payment-option.selected {
+            border-color: var(--accent);
+            background: white;
+            box-shadow: 0 5px 15px rgba(255,122,0,0.1);
+        }
+
+        .payment-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .payment-option-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .payment-option-content i {
+            font-size: 1.5rem;
+            color: var(--accent);
+            width: 30px;
+        }
+
+        .payment-option-text h4 {
+            color: var(--dark-text);
+            font-size: 1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .payment-option-text p {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--accent), var(--orange-soft));
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .pay-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255,122,0,0.3);
+        }
+
+        .pay-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .pay-button i {
+            font-size: 1.2rem;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .secure-badge i {
+            color: #4CAF50;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-link a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: var(--accent);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+    </style>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <div class="payment-wrapper">
+        <div class="payment-card">
+            <div class="payment-header">
+                <h2>Complete Payment</h2>
+                <p>Secure payment powered by Razorpay</p>
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+
+            <div id="serviceSummary" class="service-summary">
+                <div class="service-item">
+                    <span class="service-label"><i class="fas fa-spinner fa-spin"></i> Loading...</span>
+                </div>
+            </div>
+
+            <div class="payment-methods">
+                <h3>Select Payment Method</h3>
+                
+                <label class="payment-option selected">
+                    <input type="radio" name="paymentMethod" value="UPI" checked>
+                    <div class="payment-option-content">
+                        <i class="fas fa-mobile-alt"></i>
+                        <div class="payment-option-text">
+                            <h4>UPI</h4>
+                            <p>Google Pay, PhonePe, Paytm</p>
+                        </div>
+                    </div>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio" name="paymentMethod" value="Card">
+                    <div class="payment-option-content">
+                        <i class="fas fa-credit-card"></i>
+                        <div class="payment-option-text">
+                            <h4>Credit/Debit Card</h4>
+                            <p>Visa, MasterCard, RuPay</p>
+                        </div>
+                    </div>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio" name="paymentMethod" value="Netbanking">
+                    <div class="payment-option-content">
+                        <i class="fas fa-university"></i>
+                        <div class="payment-option-text">
+                            <h4>Net Banking</h4>
+                            <p>All major banks</p>
+                        </div>
+                    </div>
+                </label>
+            </div>
+
+            <button class="pay-button" id="payButton" onclick="processPayment()">
+                <i class="fas fa-lock"></i>
+                <span>Pay ₹<span id="payAmount">0</span></span>
+            </button>
+
+            <div class="secure-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>100% Secure Payment</span>
+            </div>
+
+            <div class="back-link">
+                <a href="appointment.html"><i class="fas fa-arrow-left"></i> Back to Booking</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        const customerId = localStorage.getItem('customer_id');
+
+        console.log("Token exists:", !!token);
+        console.log("Logged in customer_id:", customerId);
+        console.log("Appointment belongs to customer_id: 6");
+        if (token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const payload = JSON.parse(atob(base64));
+                console.log("Token payload:", payload);
+                console.log("Token customer_id:", payload.customer_id);
+            } catch (e) {
+                console.log("Could not decode token");
+            }
+        }
+        const params = new URLSearchParams(window.location.search);
+        let appointmentId = params.get('appointment_id');
+        console.log("All URL parameters:", Object.fromEntries(params.entries()));
+        console.log("Appointment ID from URL:", appointmentId);
+
+        if (!appointmentId) {
+            for (let [key, value] of params.entries()) {
+                if (key.includes('appoint') || (value && !isNaN(parseInt(value)))) {
+                    console.log(`Found potential ID in parameter "${key}": ${value}`);
+                    appointmentId = value;
+                    break;
+                }
+            }
+        }
+        if (!appointmentId) {
+            document.getElementById('serviceSummary').innerHTML = `
+                <div class="service-item">
+                    <span class="service-label"><i class="fas fa-exclamation-triangle" style="color:#c62828;"></i> Error</span>
+                    <span class="service-value">No appointment ID provided</span>
+                </div>
+                <div style="text-align:center; margin-top:20px;">
+                    <a href="appointment.html" class="btn btn-primary">Back to Booking</a>
+                </div>
+            `;
+            document.getElementById('payButton').disabled = true;
+            throw new Error('No appointment ID');
+        }
+
+        let appointmentDetails = null;
+        async function loadAppointmentDetails() {
+            try {
+                console.log("Appointment ID from URL:", appointmentId);
+                
+                if (!appointmentId) {
+                    showError('No appointment specified. Please go back and try again.');
+                    document.getElementById('serviceSummary').innerHTML = `
+                        <div class="service-item">
+                            <span class="service-label"><i class="fas fa-exclamation-triangle" style="color:#c62828;"></i> Error</span>
+                            <span class="service-value">No appointment ID</span>
+                        </div>
+                        <div style="text-align:center; margin-top:20px;">
+                            <a href="appointment.html" class="btn btn-primary">Back to Booking</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                console.log('Fetching appointment details from:', `/api/appointments/${appointmentId}/payment-details`);
+                
+                const response = await fetch(`/api/appointments/${appointmentId}/payment-details`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                console.log("Response status:", response.status);
+
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        localStorage.removeItem('token');
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    if (response.status === 404) {
+                        throw new Error('Appointment not found. The appointment ID may be invalid.');
+                    }
+                    throw new Error(`Failed to load appointment details (Status: ${response.status})`);
+                }
+
+                appointmentDetails = await response.json();
+                console.log("Appointment details loaded:", appointmentDetails);
+          
+                const date = new Date(appointmentDetails.appointment_date);
+                const formattedDate = date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                document.getElementById('serviceSummary').innerHTML = `
+                    <div class="service-item">
+                        <span class="service-label"><i class="fas fa-cut"></i> Service</span>
+                        <span class="service-value">${appointmentDetails.service_name}</span>
+                    </div>
+                    <div class="service-item">
+                        <span class="service-label"><i class="fas fa-calendar"></i> Date</span>
+                        <span class="service-value">${formattedDate}</span>
+                    </div>
+                    <div class="service-item">
+                        <span class="service-label"><i class="fas fa-clock"></i> Time</span>
+                        <span class="service-value">${appointmentDetails.appointment_time}</span>
+                    </div>
+                    <div class="total-amount">
+                        <span>Total Amount</span>
+                        <span class="price">₹${appointmentDetails.price}</span>
+                    </div>
+                `;
+                document.getElementById('payAmount').textContent = appointmentDetails.price;
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError(error.message);
+                
+                document.getElementById('serviceSummary').innerHTML = `
+                    <div class="service-item">
+                        <span class="service-label"><i class="fas fa-exclamation-triangle" style="color:#c62828;"></i> Error</span>
+                        <span class="service-value">${error.message}</span>
+                    </div>
+                    <div style="text-align:center; margin-top:20px;">
+                        <a href="appointment.html" class="btn btn-primary">Back to Booking</a>
+                    </div>
+                `;
+            }
+        }
+        async function processPayment() {
+            const payButton = document.getElementById('payButton');
+            const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+            if (!selectedMethod) {
+                showError('Please select a payment method');
+                return;
+            }
+
+            if (!appointmentDetails) {
+                showError('Appointment details not loaded');
+                return;
+            }
+
+            const method = selectedMethod.value;
+            const price = appointmentDetails.price;
+            payButton.disabled = true;
+            payButton.innerHTML = '<span class="loading"></span> Processing...';
+
+            try {
+                if (method === 'UPI' || method === 'Card') {
+                    await processRazorpayPayment(method, price);
+                } else {
+                    await processSimplePayment(method);
+                }
+            } catch (error) {
+                console.error('Payment error:', error);
+                showError('Payment failed. Please try again.');
+                
+                payButton.disabled = false;
+                payButton.innerHTML = `
+                    <i class="fas fa-lock"></i>
+                    <span>Pay ₹${price}</span>
+                `;
+            }
+        }
+        async function processRazorpayPayment(method, price) {
+            try {
+                const orderResponse = await fetch('/api/create-order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        amount: parseInt(price)
+                    })
+                });
+
+                if (!orderResponse.ok) {
+                    throw new Error('Failed to create order');
+                }
+
+                const order = await orderResponse.json();
+                const options = {
+                    key: "rzp_test_SGT6S4JZPspLnu", 
+                    amount: order.amount,
+                    currency: "INR",
+                    name: "SalonSnap",
+                    description: `${appointmentDetails.service_name} - Booking`,
+                    order_id: order.id,
+                    prefill: {
+                        name: appointmentDetails.customer_name || 'Customer',
+                        email: localStorage.getItem('userEmail') || ''
+                    },
+                    handler: async function(response) {
+                        console.log("Razorpay success response:", response);
+                            const paymentId = localStorage.getItem('currentPaymentId') || appointmentDetails?.payment_id;
+                            
+                            console.log("Payment ID from storage:", paymentId);
+                            console.log("Appointment ID:", appointmentId);
+                            const payButton = document.getElementById('payButton');
+                            payButton.innerHTML = '<span class="loading"></span> Generating Receipt...';
+                
+                        try {
+                            const successResponse = await fetch('/api/payment-success', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                },
+                                body: JSON.stringify({
+                                    appointment_id: appointmentId,
+                                    payment_id: paymentId,
+                                    transaction_id: response.razorpay_payment_id,
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_signature: response.razorpay_signature
+                                })
+                            });
+                            
+                            const result = await successResponse.json();
+                            console.log("Receipt generation result:", result);
+                            
+                            if (result.success) {
+                                localStorage.setItem('lastPaymentId', result.payment_id);
+                                localStorage.setItem('lastReceiptUrl', result.receipt_url);
+                                window.location.href = `/payment-success.html?payment_id=${result.payment_id}`;
+                            } else {
+                                alert('Payment successful but receipt generation failed. Please contact support.');
+                                window.location.href = `/dashboard.html`;
+                            }
+                            
+                        } catch (error) {
+                            console.error('Error in payment success handler:', error);
+                            alert('Payment successful but error occurred. Please contact support.');
+                            window.location.href = `/dashboard.html`;
+                        }
+                    },
+                    modal: {
+                        ondismiss: function() {
+                            const payButton = document.getElementById('payButton');
+                            payButton.disabled = false;
+                            payButton.innerHTML = `
+                                <i class="fas fa-lock"></i>
+                                <span>Pay ₹${price}</span>
+                            `;
+                        }
+                    },
+                    theme: {
+                        color: "#ff7a00"
+                    }
+                };
+
+                const razorpay = new Razorpay(options);
+                razorpay.open();
+
+            } catch (error) {
+                console.error('Razorpay error:', error);
+                throw error;
+            }
+        }
+        async function processSimplePayment(method) {
+            const response = await fetch('/api/payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    appointment_id: appointmentId,
+                    method: method
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                window.location.href = `payment-success.html?appointment_id=${appointmentId}&payment_id=${data.payment_id}`;
+            } else {
+                throw new Error('Payment failed');
+            }
+        }
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+            
+            setTimeout(() => {
+                errorDiv.classList.remove('show');
+            }, 5000);
+        }
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.payment-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                this.querySelector('input[type="radio"]').checked = true;
+            });
+        });
+        document.addEventListener('DOMContentLoaded', loadAppointmentDetails);
+    </script>
+</body>
+</html>
