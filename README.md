@@ -64,8 +64,8 @@ salon_management/
 │   └── success.html
 │
 ├── screenshots/
-│   └── *.png
-|
+│   └── images
+│
 ├── utils/
 │   └── receipt.js
 │
