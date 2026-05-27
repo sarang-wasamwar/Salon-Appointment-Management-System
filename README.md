@@ -83,7 +83,7 @@ salon_management/
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 ### 1️⃣ Clone Repository
 
@@ -130,7 +130,7 @@ RAZORPAY_SECRET=YOUR_RAZORPAY_SECRET
 JWT_SECRET=JWT_SECRET_CODE
 ```
 
-### 🗄️ Database Setup (XAMPP)
+### 5️⃣ Database Setup (XAMPP)
 
 This project uses **MySQL from XAMPP** as the local database server.
 
@@ -195,8 +195,8 @@ http://localhost:3000
 ## 👨‍💻 Contributors
 
 - Sarang Wasamwar
-- Shubham Navale [GitHub: https://github.com/Shubham21042007 ]
-- Ayush Thakare [GitHub: https://github.com/Ayu5h-2005 ]
+- Shubham Navale [ GitHub: https://github.com/Shubham21042007 ]
+- Ayush Thakare [ GitHub: https://github.com/Ayu5h-2005 ]
 
 ---
 
